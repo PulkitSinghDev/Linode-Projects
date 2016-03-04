@@ -16,8 +16,16 @@ def normal(q):
 
 
 # backward chaining on kb for q
-def backward_chain(kb, q, d = 0):
+def backward_chain(kb, q, d = 0, hist):
     global store
+
+    # check for cycles
+    if q in hist and not q in store:
+        print('Cycle detected: {0}'.format(q))
+        return False
+
+    # record the query
+    hist.add(q)
 
     print('{1}Subgoal: {0}'.format(q, '    '*d))
     # if already proved
@@ -33,7 +41,7 @@ def backward_chain(kb, q, d = 0):
             return True
 
         # attempt to prove its premises
-        store[q] = all([(not backward_chain(kb, normal(p), d+1)) if p[0] == '~' else backward_chain(kb, p, d+1) for p in kb[q]])
+        store[q] = all([(not backward_chain(kb, normal(p), d+1, hist)) if p[0] == '~' else backward_chain(kb, p, d+1, hist) for p in kb[q]])
     else:
         # not provable
         print('{0}False.'.format('    '*(d+1)))
