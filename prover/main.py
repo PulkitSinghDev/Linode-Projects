@@ -16,7 +16,7 @@ def normal(q):
 
 
 # backward chaining on kb for q
-def backward_chain(kb, q, d = 0, hist):
+def backward_chain(kb, q, d, hist):
     global store
 
     # check for cycles
@@ -64,7 +64,7 @@ for line in lines:
 result = None
 q = form['q'].value
 if q[0] == '~':
-    result = not backward_chain(kb, normal(q), set())
+    result = not backward_chain(kb, normal(q), 0, set())
 else:
-    result = backward_chain(kb, q, set())
+    result = backward_chain(kb, q, 0, set())
 print('Query is: {0}'.format(result))
