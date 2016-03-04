@@ -64,7 +64,7 @@ for line in lines:
 result = None
 q = form['q'].value
 if q[0] == '~':
-    result = not backward_chain(kb, normal(q))
+    result = not backward_chain(kb, normal(q), set())
 else:
-    result = backward_chain(kb, q)
+    result = backward_chain(kb, q, set())
 print('Query is: {0}'.format(result))
