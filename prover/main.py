@@ -25,21 +25,20 @@ def backward_chain(kb, q, d = 0):
         print('{0}{1} (previous).'.format('    '*(d+1), store[q]))
         return store[q]
     # find rules that conclude q
-    for c in kb:
-        if c == q:
-            # check trivial case
-            if kb[c] is None:
-                print('{0}True.'.format('    '*(d+1)))
-                store[c] = True
-                return True
+    if q in kb:
+        # check trivial case
+        if kb[q] is None:
+            print('{0}True.'.format('    '*(d+1)))
+            store[q] = True
+            return True
 
-            # attempt to prove its premises
-            store[c] = all([(not backward_chain(kb, normal(p), d+1)) if p[0] == '~' else backward_chain(kb, p, d+1) for p in kb[c]])
-            return store[c]
-    # not provable
-    print('{0}False.'.format('    '*(d+1)))
-    store[c] = False
-    return False
+        # attempt to prove its premises
+        store[q] = all([(not backward_chain(kb, normal(p), d+1)) if p[0] == '~' else backward_chain(kb, p, d+1) for p in kb[q]])
+    else:
+        # not provable
+        print('{0}False.'.format('    '*(d+1)))
+        store[q] = False
+    return store[q]
 
 # populate KB
 kb = {}
