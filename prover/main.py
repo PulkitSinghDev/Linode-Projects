@@ -21,7 +21,7 @@ def backward_chain(kb, q, d, hist):
 
     # check for cycles
     if q in hist and not q in store:
-        print('Cycle detected: {0}'.format(q))
+        print('{1}Cycle detected: {0}'.format(q, '    '*d))
         return False
 
     # record the query
